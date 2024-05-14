@@ -6,6 +6,7 @@
 * {
     padding: 0;
     margin: 0;
+    color: rgb(236, 236, 236);
 }
 
 h1 {
@@ -22,6 +23,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
+    background-color: rgb(33, 33, 33);
     /* align-items: center; */
 }
 
@@ -30,18 +32,25 @@ body {
     justify-content: center;
     height: 90vh;
     margin: 24px;
-    border: solid black 4px;
+    /* border: solid black 4px; */
     padding: 5px;
-    gap: 5px;
+    gap: 120px;
+    align-items: flex-start;
 }
 
 .controls {
-    flex: 0 0 295px;
-    border: solid black 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 48px;
+    flex: 0 0 auto;
+    /* padding-top: 48px; */
+    /* border: solid black 4px; */
 }
 
 .drawing-box {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     /* height: 500px; */
     /* width: 500px; */
     /* border: solid black 4px; */
@@ -62,4 +71,35 @@ body {
 
 .pixel {
     box-sizing: border-box;
+    background-color: white;
+}
+
+.controls input[type="button"] {
+    background-color: rgb(47, 47, 47);
+    padding: 12px 24px;
+    border-radius: 8px;
+    width: 200px;
+    /* border: 5px; */
+}
+
+.pixel-amount {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.color-selector {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 12px;
+}
+
+#color-picker {
+    width: 200px;
+    height: 36px;
+    border: 0px;
+    background-color: rgb(33, 33, 33);
+    border-radius: 12px;
 }

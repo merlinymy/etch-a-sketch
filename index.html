@@ -9,14 +9,33 @@
     <script src="javascript.js" defer></script>
 </head>
 <body>
-    <h1 class="title">Eche-A-Sketch</h1>
     <div class="contents">
         <div class="controls">
+            <h1 class="title">Eche-A-Sketch</h1>
             <!-- color selector -->
+            <div class="color-selector">
+                <label for="color-picker">Brush Color</label>
+                <input type="color" id="color-picker" class="color-picker" value="#1BE5F3">
+            </div>
             <!-- # of pixels -->
+            <div class="pixel-amount">
+                <label for="pixel-count">Pixels: </label>
+                <input type="range" min="16" max="128" step="1">
+                <input type="number" min="16" max="128" id="pixel-count">
+                <p></p>
+            </div>
             <!-- random color button -->
+            <div class="random-color">
+                <input type="button" class="random-color-button" value="Random Color">
+            </div>
             <!-- is darken button -->
+            <div class="darken">
+                <input type="button" class="darken-button" value="Darken">
+            </div>
             <!-- is border button -->
+            <div class="show-border">
+                <input type="button" class="show-border-button" value="Hide Border">
+            </div>
         </div>
         <div class="drawing-box">
             <div class="container"></div>
