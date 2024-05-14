@@ -5,6 +5,10 @@ const containerDiv = document.querySelector(".container");
 // user choose the number of grid (x by x)
 // container length / number of grid is the size of small div (pixel)
 let containerWidth = 750;
+let colorPicker;
+let pixelPicker;
+const defaultColor = "#1BE5F3";
+let pixelColor;
 
 function generateSquares(numberSquares) {
     // we need to know the width/height of pixels
@@ -30,10 +34,29 @@ function attachListeners(pixel) {
 
 function paint(event) {
     const target = event.target;
-    target.style.backgroundColor = "red";
+    target.style.backgroundColor = pixelColor;
 }
 
 generateSquares(64);
 const pixelDivs = document.querySelectorAll(".pixel");
 // console.log(pixelDivs);
 pixelDivs.forEach(pixel => attachListeners(pixel));
+
+window.addEventListener("load", startup, false);
+
+function startup() {
+    colorPicker = document.querySelector("#color-picker");
+    colorPicker.value = defaultColor;
+    pixelColor = defaultColor;
+    colorPicker.addEventListener("input", updateFirst, false);
+    colorPicker.addEventListener("change", updateAll, false);
+    colorPicker.select();
+}
+
+function updateFirst(event) {
+    pixelColor = event.target.value;
+}
+
+function updateAll(event) {
+    pixelColor = event.target.value;
+}
