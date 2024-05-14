@@ -101,5 +101,9 @@ body {
     height: 36px;
     border: 0px;
     background-color: rgb(33, 33, 33);
-    border-radius: 12px;
+}
+
+.setting {
+    display: flex;
+    gap: 24px;
 }
