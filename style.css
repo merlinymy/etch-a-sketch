@@ -1,0 +1,65 @@
+@font-face {
+    font-family: sketchpad;
+    src: url(fonts/SketchPad-1EVg.ttf);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-family: sketchpad;
+}
+
+.title {
+    font-size: 75px;
+    text-align: center;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    /* align-items: center; */
+}
+
+.contents {
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    margin: 24px;
+    border: solid black 4px;
+    padding: 5px;
+    gap: 5px;
+}
+
+.controls {
+    flex: 0 0 295px;
+    border: solid black 4px;
+}
+
+.drawing-box {
+    flex: 0 1 auto;
+    /* height: 500px; */
+    /* width: 500px; */
+    /* border: solid black 4px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    border: solid black 1px;
+    width: 750px;
+    height: 750px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.pixel {
+    box-sizing: border-box;
+}
