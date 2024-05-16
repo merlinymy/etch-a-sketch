@@ -182,6 +182,8 @@ eraserBtn.addEventListener("click", () => {
 });
 
 brushBtn.addEventListener("click", () => {
+    isEraser = true;
+    isBrush = false;
     updateBrushBtn();
     updateEraser();
 });
