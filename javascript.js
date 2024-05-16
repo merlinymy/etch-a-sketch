@@ -9,11 +9,13 @@ let colorPicker;
 let pixelPicker;
 const defaultColor = "#1BE5F3";
 let pixelColor;
+let pixelCount = 16;
 
 function generateSquares(numberSquares) {
     // we need to know the width/height of pixels
+    const pixelContainer = document.querySelector(".container");
+    pixelContainer.replaceChildren();
     let pixelWidth = containerWidth / numberSquares;
-    console.log(pixelWidth);
     for (let i = 0; i < numberSquares; i++) {
         for (let j = 0; j < numberSquares; j++) {
             const pixelSquare = document.createElement("div");
@@ -24,6 +26,11 @@ function generateSquares(numberSquares) {
             containerDiv.appendChild(pixelSquare);
         }    
     }
+}
+
+function updatePixels(pixelCount) {
+    generateSquares(pixelCount);
+    setupPixelDivs();
 }
 
 function attachListeners(pixel) {
@@ -37,14 +44,19 @@ function paint(event) {
     target.style.backgroundColor = pixelColor;
 }
 
-generateSquares(64);
-const pixelDivs = document.querySelectorAll(".pixel");
-// console.log(pixelDivs);
-pixelDivs.forEach(pixel => attachListeners(pixel));
+function setupPixelDivs() {
+    const pixelDivs = document.querySelectorAll(".pixel");
+    // console.log(pixelDivs);
+    pixelDivs.forEach(pixel => attachListeners(pixel));
+}
 
-window.addEventListener("load", startup, false);
+function onStartup() {
+    updatePixels(pixelCount)
+    setupColorPicker();
+    displayPixelCountsOnStartup(pixelCount);
+}
 
-function startup() {
+function setupColorPicker() {
     colorPicker = document.querySelector("#color-picker");
     colorPicker.value = defaultColor;
     pixelColor = defaultColor;
@@ -60,3 +72,35 @@ function updateFirst(event) {
 function updateAll(event) {
     pixelColor = event.target.value;
 }
+
+function displayPixelCountsOnStartup(pixelCount) {
+    const pixelSlider = document.querySelector(".pixel-slider");
+    pixelSlider.value = pixelCount;
+    const pixelP = document.querySelector(".pixel-output");
+    pixelP.textContent = `${pixelCount} x ${pixelCount}`;
+}
+
+function displayPixelCounts(pixelCount) {
+    const pixelP = document.querySelector(".pixel-output");
+    const pixelInputBox = document.querySelector("#pixel-count");
+    pixelInputBox.value = pixelCount;
+    pixelP.textContent = `${pixelCount} x ${pixelCount}`;
+}
+
+function onChangeSlider(pixelCount) {
+    displayPixelCounts(pixelCount);
+    updatePixels(pixelCount);
+}
+
+window.addEventListener("load", onStartup, false);
+const pixelSlider = document.querySelector(".pixel-slider");
+const pixelInputBox = document.querySelector("#pixel-count");
+
+pixelSlider.addEventListener("input", (event) => {
+    onChangeSlider(event.target.value);
+});
+
+pixelInputBox.addEventListener("input", (event) => {
+    onChangeSlider(event.target.value);
+});
+
