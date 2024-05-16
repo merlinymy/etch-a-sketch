@@ -34,7 +34,7 @@ function updatePixels(pixelCount) {
 }
 
 function attachListeners(pixel) {
-    pixel.addEventListener("mouseover", (event) => {
+    pixel.addEventListener("mouseenter", (event) => {
         paint(event);
     });
 }
@@ -46,6 +46,35 @@ function paint(event) {
         target.style.backgroundColor = selectRandomColor();
     } else {
         target.style.backgroundColor = pixelColor;
+    }
+
+    if (isDarken) {
+        // if target does not have overlay div
+        if (!target.hasChildNodes()) {
+            const overlay = document.createElement("div");
+            target.appendChild(overlay);
+        }
+        // create one
+        let darkenCount;
+        const overlay = target.firstChild;
+        if (!overlay.getAttribute("darken")) {
+            overlay.setAttribute("darken", "0");
+        }
+        darkenCount = +overlay.getAttribute("darken");
+        if (darkenCount <= 10) {
+            darkenCount += 1;
+            overlay.style = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, ${(darkenCount - 1)/10});
+            `
+            overlay.setAttribute("darken", `${darkenCount}`);
+        }
+    } else {
+        target.textContent = '';
     }
 }
 
@@ -100,9 +129,10 @@ function displayPixelCounts(pixelCount) {
     pixelP.textContent = `${pixelCount} x ${pixelCount}`;
 }
 
-function onChangeSlider(pixelCount) {
-    displayPixelCounts(pixelCount);
-    updatePixels(pixelCount);
+function onChangeSlider(pixels) {
+    pixelCount = pixels;
+    displayPixelCounts(pixels);
+    updatePixels(pixels);
 }
 
 function updateEraser() {
@@ -139,6 +169,18 @@ const borderBtn = document.querySelector(".show-border-button");
 
 // button states
 let isRandomColor = false;
+let isDarken = false;
+
+darkenBtn.addEventListener("click", updatedarkenBtn);
+
+function updatedarkenBtn() {
+    isDarken = !isDarken;
+    if (isDarken) {
+        darkenBtn.classList.add("highlight-button");
+    } else {
+        darkenBtn.classList.remove("highlight-button");
+    }
+}
 
 randomColorBtn.addEventListener("click", () => {
     isEraser = true;
@@ -186,6 +228,10 @@ brushBtn.addEventListener("click", () => {
     isBrush = false;
     updateBrushBtn();
     updateEraser();
+});
+
+reloadBtn.addEventListener("click", () => {
+    updatePixels(pixelCount);
 });
 
 pixelSlider.addEventListener("input", (event) => {
