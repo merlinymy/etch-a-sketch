@@ -71,6 +71,12 @@ function updateFirst(event) {
 
 function updateAll(event) {
     pixelColor = event.target.value;
+    // the states here are inverted because
+    // the states will be fliped in update function
+    isEraser = true;
+    isBrush = false;
+    updateEraser();
+    updateBrushBtn();
 }
 
 function displayPixelCountsOnStartup(pixelCount) {
@@ -92,9 +98,56 @@ function onChangeSlider(pixelCount) {
     updatePixels(pixelCount);
 }
 
+function updateEraser() {
+    isEraser = !isEraser;
+    colorPicker = document.querySelector("#color-picker");
+    if (isEraser) {
+        pixelColor = "white";
+        eraserBtn.classList.add("highlight-button");
+    } else {
+        pixelColor = colorPicker.value;
+        eraserBtn.classList.remove("highlight-button");
+    }
+}
+
+function updateBrushBtn() {
+    isBrush = !isBrush;
+    colorPicker = document.querySelector("#color-picker");
+    if (isBrush) {
+        pixelColor = colorPicker.value;
+        brushBtn.classList.add("highlight-button");
+    } else {
+        pixelColor = "white";
+        brushBtn.classList.remove("highlight-button");
+    }
+}
 window.addEventListener("load", onStartup, false);
 const pixelSlider = document.querySelector(".pixel-slider");
 const pixelInputBox = document.querySelector("#pixel-count");
+
+// all the buttons
+const randomColorBtn = document.querySelector(".random-color-button");
+const darkenBtn = document.querySelector(".darken-button");
+const borderBtn = document.querySelector(".show-border-button");
+
+const eraserBtn = document.querySelector(".eraser-button");
+const brushBtn = document.querySelector(".brush-button");
+const reloadBtn = document.querySelector(".reload-button");
+
+// button states
+let isEraser = false;
+let isBrush = true;
+
+
+eraserBtn.addEventListener("click", () => {
+    updateBrushBtn();
+    updateEraser();
+});
+
+brushBtn.addEventListener("click", () => {
+    updateBrushBtn();
+    updateEraser();
+});
 
 pixelSlider.addEventListener("input", (event) => {
     onChangeSlider(event.target.value);

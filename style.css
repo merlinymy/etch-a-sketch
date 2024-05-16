@@ -43,7 +43,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 48px;
+    gap: 36px;
     flex: 0 0 auto;
     /* padding-top: 48px; */
     /* border: solid black 4px; */
@@ -86,6 +86,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .color-selector {
@@ -110,4 +112,8 @@ body {
 
 #pixel-count {
     background-color: rgb(47, 47, 47);
+}
+
+.highlight-button {
+    border: solid gold 5px;
 }
