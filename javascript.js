@@ -101,6 +101,24 @@ pixelSlider.addEventListener("input", (event) => {
 });
 
 pixelInputBox.addEventListener("input", (event) => {
-    onChangeSlider(event.target.value);
+    const pixelDiv = document.querySelector(".pixel-amount");
+    const previousWarning = document.querySelector(".pixel-amount .warning");
+    if (previousWarning !== null ) {
+        pixelDiv.removeChild(previousWarning);
+    }
+    const warningMsg = document.createElement("p");
+    warningMsg.className = "warning";
+    warningMsg.textContent = "Please enter a value between 16 and 128";
+    let inputVal = event.target.value;
+    if (inputVal === '') {
+        const pixelP = document.querySelector(".pixel-output");
+        pixelP.textContent = '';
+        return;
+    }
+    if (inputVal < 16 || inputVal > 128) {
+        pixelDiv.appendChild(warningMsg);
+        return;
+    }
+    onChangeSlider(inputVal);
 });
 

@@ -107,3 +107,7 @@ body {
     display: flex;
     gap: 24px;
 }
+
+#pixel-count {
+    background-color: rgb(47, 47, 47);
+}
