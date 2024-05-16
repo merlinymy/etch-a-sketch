@@ -132,6 +132,7 @@ function displayPixelCounts(pixelCount) {
 }
 
 function onChangeSlider(pixels) {
+    isBorder = true;
     pixelCount = pixels;
     displayPixelCounts(pixels);
     updatePixels(pixels);
@@ -179,10 +180,12 @@ borderBtn.addEventListener("click", ()=>{
         [...containerDiv.children].forEach(child => {
             child.style.border = '';
         });
+        borderBtn.value = "Show Borders";
     } else {
         [...containerDiv.children].forEach(child => {
             child.style.border = 'solid black 0.2px';
         });
+        borderBtn.value = "Hide Borders";
     }
     isBorder = !isBorder;
 });
