@@ -49,6 +49,8 @@ function paint(event) {
     }
 
     if (isDarken) {
+        isEraser = true;
+        updateEraser();
         // if target does not have overlay div
         if (!target.hasChildNodes()) {
             const overlay = document.createElement("div");
@@ -170,8 +172,28 @@ const borderBtn = document.querySelector(".show-border-button");
 // button states
 let isRandomColor = false;
 let isDarken = false;
+let isBorder = true;
 
-darkenBtn.addEventListener("click", updatedarkenBtn);
+borderBtn.addEventListener("click", ()=>{
+    if (isBorder) {
+        [...containerDiv.children].forEach(child => {
+            child.style.border = '';
+        });
+    } else {
+        [...containerDiv.children].forEach(child => {
+            child.style.border = 'solid black 0.2px';
+        });
+    }
+    isBorder = !isBorder;
+});
+
+darkenBtn.addEventListener("click", ()=> {
+    isEraser = true;
+    updateEraser();
+    isBrush = false;
+    updateBrushBtn();
+    updatedarkenBtn();
+});
 
 function updatedarkenBtn() {
     isDarken = !isDarken;
@@ -221,6 +243,8 @@ eraserBtn.addEventListener("click", () => {
     updateEraser();
     isRandomColor = true;
     updateRandomBtn();
+    isDarken = true;
+    updatedarkenBtn();
 });
 
 brushBtn.addEventListener("click", () => {
