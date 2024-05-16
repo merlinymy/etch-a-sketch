@@ -31,11 +31,11 @@ body {
     display: flex;
     justify-content: center;
     height: 90vh;
-    margin: 24px;
+    margin: 18px;
     /* border: solid black 4px; */
     padding: 5px;
     gap: 120px;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .controls {
@@ -62,8 +62,8 @@ body {
 .container {
     display: flex;
     border: solid black 1px;
-    width: 750px;
-    height: 750px;
+    width: 650px;
+    height: 650px;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -117,4 +117,9 @@ body {
 
 .highlight-button {
     border: solid gold 5px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
 }

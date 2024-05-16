@@ -4,7 +4,7 @@ const containerDiv = document.querySelector(".container");
 
 // user choose the number of grid (x by x)
 // container length / number of grid is the size of small div (pixel)
-let containerWidth = 750;
+let containerWidth = 650;
 let colorPicker;
 let pixelPicker;
 const defaultColor = "#1BE5F3";
