@@ -41,7 +41,12 @@ function attachListeners(pixel) {
 
 function paint(event) {
     const target = event.target;
-    target.style.backgroundColor = pixelColor;
+
+    if (isRandomColor) {
+        target.style.backgroundColor = selectRandomColor();
+    } else {
+        target.style.backgroundColor = pixelColor;
+    }
 }
 
 function setupPixelDivs() {
@@ -75,8 +80,10 @@ function updateAll(event) {
     // the states will be fliped in update function
     isEraser = true;
     isBrush = false;
+    isRandomColor = true;
     updateEraser();
     updateBrushBtn();
+    updateRandomBtn();
 }
 
 function displayPixelCountsOnStartup(pixelCount) {
@@ -130,6 +137,35 @@ const randomColorBtn = document.querySelector(".random-color-button");
 const darkenBtn = document.querySelector(".darken-button");
 const borderBtn = document.querySelector(".show-border-button");
 
+// button states
+let isRandomColor = false;
+
+randomColorBtn.addEventListener("click", () => {
+    isEraser = true;
+    isBrush = false;
+    updateRandomBtn();
+    updateBrushBtn();
+    updateEraser();
+});
+
+function updateRandomBtn() {
+    isRandomColor = !isRandomColor;
+    colorPicker = document.querySelector("#color-picker");
+    if (isRandomColor) {
+        randomColorBtn.classList.add("highlight-button");
+    } else {
+        randomColorBtn.classList.remove("highlight-button");
+    }
+}
+
+function selectRandomColor() {
+    let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+
 const eraserBtn = document.querySelector(".eraser-button");
 const brushBtn = document.querySelector(".brush-button");
 const reloadBtn = document.querySelector(".reload-button");
@@ -138,10 +174,11 @@ const reloadBtn = document.querySelector(".reload-button");
 let isEraser = false;
 let isBrush = true;
 
-
 eraserBtn.addEventListener("click", () => {
     updateBrushBtn();
     updateEraser();
+    isRandomColor = true;
+    updateRandomBtn();
 });
 
 brushBtn.addEventListener("click", () => {
