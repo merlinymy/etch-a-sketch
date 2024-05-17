@@ -11,6 +11,15 @@ const defaultColor = "#1BE5F3";
 let pixelColor;
 let pixelCount = 16;
 
+// hold mouse to draw for better UX
+let isMousedown = false;
+document.addEventListener("mousedown", () => {
+    isMousedown = true;
+});
+document.addEventListener("mouseup", () => {
+    isMousedown = false;
+});
+
 function generateSquares(numberSquares) {
     // we need to know the width/height of pixels
     const pixelContainer = document.querySelector(".container");
@@ -33,21 +42,27 @@ function updatePixels(pixelCount) {
     setupPixelDivs();
 }
 
+const mouseEnterListener = (event) => {
+    event.preventDefault();
+    paint(event);
+};
+
+const mouseEnterIsMouseDownListener = (event) => {
+    if (isMousedown) {
+        paint(event);
+    }
+};
+
+const mousedownListener = (event) => {
+    event.preventDefault();
+    paint(event);
+};
 function attachListeners(pixel) {
     if (isHover) {
-        pixel.addEventListener("mouseenter", (event) => {
-            paint(event);
-        });
+        pixel.addEventListener("mouseenter", mouseEnterListener);
     } else {
-        pixel.addEventListener("mouseenter", (event) => {
-            if (isMousedown) {
-                paint(event);
-            }
-        });
-        pixel.addEventListener("mousedown", (event) => {
-            event.preventDefault();
-            paint(event);
-        });
+        pixel.addEventListener("mouseenter", mouseEnterIsMouseDownListener);
+        pixel.addEventListener("mousedown", mousedownListener);
     }
 
 }
@@ -182,6 +197,15 @@ function updateBrushBtn() {
         brushBtn.classList.remove("highlight-button");
     }
 }
+
+function removeCurEventListener() {
+    const pixelDivs = document.querySelectorAll(".pixel");
+    [...pixelDivs].forEach(pixel => {
+        pixel.removeEventListener("mouseenter", mouseEnterIsMouseDownListener);
+        pixel.removeEventListener("mouseenter", mouseEnterListener);
+        pixel.removeEventListener("mouseenter", mousedownListener);
+    })
+}
 window.addEventListener("load", onStartup, false);
 const pixelSlider = document.querySelector(".pixel-slider");
 const pixelInputBox = document.querySelector("#pixel-count");
@@ -190,7 +214,7 @@ const pixelInputBox = document.querySelector("#pixel-count");
 const randomColorBtn = document.querySelector(".random-color-button");
 const darkenBtn = document.querySelector(".darken-button");
 const borderBtn = document.querySelector(".show-border-button");
-const drawingModeBtn = document.querySelector(".drawing-mode");
+const drawingModeBtn = document.querySelector(".drawing-mode-button");
 
 // button states
 let isRandomColor = false;
@@ -200,10 +224,12 @@ let isHover = true;
 
 drawingModeBtn.addEventListener("click", () => {
     isHover = !isHover;
+    removeCurEventListener();
+    setupPixelDivs();
     if (isHover) {
-        drawingModeBtn.classList.add("highlight-button");
+        drawingModeBtn.value = "Hover";
     } else {
-        drawingModeBtn.classList.remove("highlight-button");
+        drawingModeBtn.value = "Click and Drag";
     }
 });
 
@@ -319,11 +345,3 @@ pixelInputBox.addEventListener("input", (event) => {
     onChangeSlider(inputVal);
 });
 
-// hold mouse to draw for better UX
-let isMousedown = false;
-document.addEventListener("mousedown", () => {
-    isMousedown = true;
-});
-document.addEventListener("mouseup", () => {
-    isMousedown = false;
-});
