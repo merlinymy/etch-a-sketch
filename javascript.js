@@ -34,33 +34,54 @@ function updatePixels(pixelCount) {
 }
 
 function attachListeners(pixel) {
-    pixel.addEventListener("mouseenter", (event) => {
-        paint(event);
-    });
+    if (isHover) {
+        pixel.addEventListener("mouseenter", (event) => {
+            paint(event);
+        });
+    } else {
+        pixel.addEventListener("mouseenter", (event) => {
+            if (isMousedown) {
+                paint(event);
+            }
+        });
+        pixel.addEventListener("mousedown", (event) => {
+            event.preventDefault();
+            paint(event);
+        });
+    }
+
 }
 
 function paint(event) {
     const target = event.target;
-
-    if (isRandomColor) {
-        target.style.backgroundColor = selectRandomColor();
-    } else {
-        target.style.backgroundColor = pixelColor;
+    if (target.className === "pixel") {
+        if (isRandomColor) {
+            target.style.backgroundColor = selectRandomColor();
+        } else {
+            target.style.backgroundColor = pixelColor;
+        }    
     }
 
     if (isDarken) {
+        let overlay;
         isEraser = true;
         updateEraser();
         // if target does not have overlay div
-        if (!target.hasChildNodes()) {
-            const overlay = document.createElement("div");
-            target.appendChild(overlay);
+        if (target.className === "pixel" && !target.hasChildNodes()) {
+            const newOverlay = document.createElement("div");
+            newOverlay.className = "dark-layer";
+            target.appendChild(newOverlay);
+            overlay = target.firstChild;
+        } else if (target.className === "pixel" && target.hasChildNodes()) {
+            overlay = target.firstChild;
+        } else if (target.className === "dark-layer") {
+            overlay = target;
         }
-        // create one
         let darkenCount;
-        const overlay = target.firstChild;
+        // const overlay = target.firstChild;
         if (!overlay.getAttribute("darken")) {
             overlay.setAttribute("darken", "0");
+            return;
         }
         darkenCount = +overlay.getAttribute("darken");
         if (darkenCount <= 10) {
@@ -71,7 +92,7 @@ function paint(event) {
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, ${(darkenCount - 1)/10});
+            background-color: rgba(0, 0, 0, ${(darkenCount)/10});
             `
             overlay.setAttribute("darken", `${darkenCount}`);
         }
@@ -169,11 +190,22 @@ const pixelInputBox = document.querySelector("#pixel-count");
 const randomColorBtn = document.querySelector(".random-color-button");
 const darkenBtn = document.querySelector(".darken-button");
 const borderBtn = document.querySelector(".show-border-button");
+const drawingModeBtn = document.querySelector(".drawing-mode");
 
 // button states
 let isRandomColor = false;
 let isDarken = false;
 let isBorder = true;
+let isHover = true;
+
+drawingModeBtn.addEventListener("click", () => {
+    isHover = !isHover;
+    if (isHover) {
+        drawingModeBtn.classList.add("highlight-button");
+    } else {
+        drawingModeBtn.classList.remove("highlight-button");
+    }
+});
 
 borderBtn.addEventListener("click", ()=>{
     if (isBorder) {
@@ -287,3 +319,11 @@ pixelInputBox.addEventListener("input", (event) => {
     onChangeSlider(inputVal);
 });
 
+// hold mouse to draw for better UX
+let isMousedown = false;
+document.addEventListener("mousedown", () => {
+    isMousedown = true;
+});
+document.addEventListener("mouseup", () => {
+    isMousedown = false;
+});

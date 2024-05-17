@@ -43,7 +43,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 36px;
+    gap: 16px;
     flex: 0 0 auto;
     /* padding-top: 48px; */
     /* border: solid black 4px; */
